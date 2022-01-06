@@ -8,7 +8,7 @@ import mysecrets
 mydb = mysql.connector.connect(
   host="localhost",
   user=mysecrets.user,
-  password=mysecrets.user,
+  password=mysecrets.password,
   database=mysecrets.databasename
 )
 
@@ -24,6 +24,10 @@ mydb = mysql.connector.connect(
 # Po           *Puffer oben
 # Pm           *Puffer mitte 
 # Pu           *Puffer unten
+# Prim ist 	Primärluft ist
+# Prim soll 	Primärluft soll
+# Sec ist 	Sekundärluft ist
+# Sec soll 	Sekundärluft soll
 # ZK           *Kesselzusand
 columnnames_db = ["T_K_IST", "T_K_SOLL", "T_RG", "T_P_oben", "T_P_mitte", "T_P_unten", "KS_Zustand"]
 
@@ -48,7 +52,7 @@ def write_to_db(data1_str, data2_str):
                sql += ","
           sql += columnnames_db[i]
      sql += ") VALUES (%s, %s, %s, %s, %s, %s, %s)"
-     val = (data1_str[0], data1_str[1], data1_str[3], data1_str[8], data1_str[9], data1_str[10], data1_str[11])
+     val = (data1_str[0], data1_str[1], data1_str[3], data1_str[8], data1_str[9], data1_str[10], data1_str[15])
      mycursor.execute(sql, val)
 
      mydb.commit()
@@ -59,12 +63,12 @@ def handle_line(line):
      global state, lbl1, lbl2, data1_str, data2_str, data1_received
 
      #discard any empty line and dotted lines
-     if(len(line) < 5 \
+     if(len(line.strip()) < 5 \
           or line.strip().startswith("-----")\
                or line.strip().startswith('Datum')):
           return
 
-     print(line)
+     print(line.strip())
 
      if state == "idle":
           if line.strip().startswith('TKi'):
@@ -103,11 +107,11 @@ def handle_line(line):
 
 def main():
 
-     #read from file
-     with open('example_message.txt', encoding='utf8') as f:
-          for line in f:
-               handle_line(line)
-     return
+     ##read from file
+     #with open('example_message.txt', encoding='utf8') as f:
+     #     for line in f:
+     #          handle_line(line)
+     #return
 
      #read from serial
      ser = serial.Serial(
@@ -127,7 +131,7 @@ def main():
                if x_barray[i] == 0xfc:
                     x_barray[i] = 0x00
           x_str = x_barray.decode('UTF-8')
-          handleLine(x_str)
+          handle_line(x_str)
 
 
 
