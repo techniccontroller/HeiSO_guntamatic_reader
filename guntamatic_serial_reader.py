@@ -25,7 +25,7 @@ mydb = mysql.connector.connect(
 # Pm           *Puffer mitte 
 # Pu           *Puffer unten
 # ZK           *Kesselzusand
-columnnames_db = ["T_K-IST", "T_K-SOLL", "T_RG", "T_P-oben", "T_P-mitte", "T_P-unten", "KS_Zustand"]
+columnnames_db = ["T_K_IST", "T_K_SOLL", "T_RG", "T_P_oben", "T_P_mitte", "T_P_unten", "KS_Zustand"]
 
 
 
