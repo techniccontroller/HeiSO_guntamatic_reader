@@ -1,5 +1,7 @@
 # HeiSO_guntamatic_reader
 
+*(Part of project HeiSO)*
+
 Python script for reading operating data of a **GUNTAMATIC BMK biomass converter** and saving it into a **MySQL** database on an **Raspberry Pi**.
 The boiler sends its operating data every 10 seconds via its serial RS232 interface. So the Raspberry Pi just need to read the data and save it.
 
