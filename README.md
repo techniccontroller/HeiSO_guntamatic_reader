@@ -3,7 +3,7 @@
 Python script for reading operating data of a guntamatic BMK biomass converter and saving it into a MySQL database on an Raspberry Pi.
 The boiler sends its operating data every 10 seconds via its serial RS232 interface. So the Raspberry Pi just need to read the data and save it.
 
-Tested with GUNTAMATIC Spezialheizkessel BMK40 (HAICO, Zentraleinheit 7.3I/O 55.1-TAURUS, SW. Vers: V1.0h)
+Tested with GUNTAMATIC Spezialheizkessel BMK40 (BJ 2008, HAICO Zentraleinheit 7.3I/O 55.1-TAURUS, SW. Vers: V1.0h)
 
 
 
