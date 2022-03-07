@@ -1,15 +1,15 @@
 # HeiSO_guntamatic_reader
 
-Python script for reading operating data of a guntamatic BMK biomass converter and saving it into a MySQL database on an Raspberry Pi.
+Python script for reading operating data of a **GUNTAMATIC BMK biomass converter** and saving it into a **MySQL** database on an **Raspberry Pi**.
 The boiler sends its operating data every 10 seconds via its serial RS232 interface. So the Raspberry Pi just need to read the data and save it.
 
 Tested with GUNTAMATIC Spezialheizkessel BMK40 (BJ 2008, HAICO Zentraleinheit 7.3I/O 55.1-TAURUS, SW. Vers: V1.0h)
-
+<img src="https://user-images.githubusercontent.com/36072504/157074498-77abc48d-92bc-413f-a5a4-66ef43855495.png" height="300px">     <img src="https://user-images.githubusercontent.com/36072504/157075022-8b63f3b2-83e1-4d5c-8b9e-4e7c5fb033e1.png" height="300px"> 
 
 
 ## Hardware
 
-On the boiler, the interface is designed as an RJ45 socket, which is why a special cable is needed to map the lines to a standardized SUB-D 9-pin socket.
+On the boiler, the interface is designed as an RJ45 socket, which is why a special cable is needed to map the lines to a standardized SUB-D 9-pin socket. In my design I created only a very short adapter cable with a RJ45 jack instead of a RJ45 plug, as shown in the drawing below, to be able to use a standard Ethernet patch cable to connect the GUNTAMATIC biomass converter to my Raspberry Pi box a few meters away.
 
 The pin mapping is as follows:
 
