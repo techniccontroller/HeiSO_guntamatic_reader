@@ -34,7 +34,7 @@ columnnames_db = ["T_K_IST", "T_K_SOLL", "T_RG", "T_P_oben", "T_P_mitte", "T_P_u
 
 
 # possible states: idle, data1, data2
-state = "idle"
+state = "lbl1"
 lbl1 = []
 lbl2 = []
 data1_str = []
@@ -56,7 +56,7 @@ def write_to_db(data1_str, data2_str):
 
      mydb.commit()
 
-     print(mycursor.rowcount, "record inserted.")
+     #print(mycursor.rowcount, "record inserted.")
 
 def handle_line(line):
      global state, lbl1, lbl2, data1_str, data2_str
@@ -74,17 +74,20 @@ def handle_line(line):
                state = "data1"
                lbl1 = line.split()
      elif state == "data1":
+          #print("State data1")
           data1_str = line.split()
           state = "lbl2"
      elif state == "lbl2":
+          print("State lbl2")
           if line.strip().startswith('KLP'):
                state = "data2"
                lbl2 = line.split()
      elif state == "data2":
+          #print("State data2")
           data2_str = line.split()
           #write data to database
           write_to_db(data1_str, data2_str)
-          state = "idle"
+          state = "lbl1"
           
 
      
@@ -120,7 +123,7 @@ def main():
           # decode bytearray as UTF-8 string
           x_str = x_barray.decode('UTF-8')
           # parse line to extract values
-		handle_line(x_str)
+          handle_line(x_str)
 
 
 
