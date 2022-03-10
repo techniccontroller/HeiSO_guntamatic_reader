@@ -39,7 +39,6 @@ lbl1 = []
 lbl2 = []
 data1_str = []
 data2_str = []
-data1_received = False
 
 def write_to_db(data1_str, data2_str):
      global mydb, columnnames_db
@@ -60,7 +59,7 @@ def write_to_db(data1_str, data2_str):
      print(mycursor.rowcount, "record inserted.")
 
 def handle_line(line):
-     global state, lbl1, lbl2, data1_str, data2_str, data1_received
+     global state, lbl1, lbl2, data1_str, data2_str
 
      #discard any empty line and dotted lines
      if(len(line.strip()) < 5 \
@@ -68,38 +67,23 @@ def handle_line(line):
                or line.strip().startswith('Datum')):
           return
 
-     print(line.strip())
+     #print(line.strip())
 
-     if state == "idle":
+     if state == "lbl1":
           if line.strip().startswith('TKi'):
                state = "data1"
                lbl1 = line.split()
-          elif line.strip().startswith('KLP'):
+     elif state == "data1":
+          data1_str = line.split()
+          state = "lbl2"
+     elif state == "lbl2":
+          if line.strip().startswith('KLP'):
                state = "data2"
                lbl2 = line.split()
-     elif state == "data1":
-          print('Data1 received')
-          data1_str = line.split()
-          #data1 = []
-          #for lbl, data in zip(lbl1, data1_str):
-          #     #print(lbl + ": " + str(float(data)))
-          #     data1.append(float(data))
-          #print(data1)
-          state = "idle"
-          data1_received = True
      elif state == "data2":
-          print('Data2 received')
           data2_str = line.split()
-          #data2 = []
-          #for lbl, data in zip(lbl2, data2_str):
-          #     print(lbl + ": " + str(float(data)))
-          #     data2.append(float(data))
-          #print(data2)
-
-          if data1_received:
-               #write data to database
-               write_to_db(data1_str, data2_str)
-               data1_received = False
+          #write data to database
+          write_to_db(data1_str, data2_str)
           state = "idle"
           
 
@@ -125,13 +109,18 @@ def main():
 
 
      while 1:
+          # read line from serial port
           x = ser.readline()
+          # convert line to bytearray
           x_barray = bytearray(x)
+          # remove the character 'ü' -> avoid problems
           for i in range(len(x_barray)):
                if x_barray[i] == 0xfc:
                     x_barray[i] = 0x00
+          # decode bytearray as UTF-8 string
           x_str = x_barray.decode('UTF-8')
-          handle_line(x_str)
+          # parse line to extract values
+		handle_line(x_str)
 
 
 
