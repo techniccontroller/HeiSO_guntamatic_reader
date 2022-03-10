@@ -78,7 +78,7 @@ def handle_line(line):
           data1_str = line.split()
           state = "lbl2"
      elif state == "lbl2":
-          print("State lbl2")
+          #print("State lbl2")
           if line.strip().startswith('KLP'):
                state = "data2"
                lbl2 = line.split()
