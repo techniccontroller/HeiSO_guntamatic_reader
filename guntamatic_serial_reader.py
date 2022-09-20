@@ -40,19 +40,47 @@ lbl2 = []
 data1_str = []
 data2_str = []
 
+def is_same_as_last_entry(last_entry, data1_str, data2_str):
+     result = 0;
+     result += last_entry[2] != data1_str[0]
+     result += last_entry[3] != data1_str[1]
+     result += last_entry[4] != data1_str[3]
+     result += last_entry[5] != data1_str[8]
+     result += last_entry[6] != data1_str[9]
+     result += last_entry[7] != data1_str[10]
+     result += last_entry[8] != data1_str[15]
+
+     print("Result of comparision: " + str(result))
+
+     return result == 0;
+
+
 def write_to_db(data1_str, data2_str):
      global mydb, columnnames_db
 
      mycursor = mydb.cursor()
 
-     sql = "INSERT INTO " + mysecrets.databasetable + "("
-     for i in range(len(columnnames_db)):
-          if i > 0:
-               sql += ","
-          sql += columnnames_db[i]
-     sql += ") VALUES (%s, %s, %s, %s, %s, %s, %s)"
-     val = (data1_str[0], data1_str[1], data1_str[3], data1_str[8], data1_str[9], data1_str[10], data1_str[15])
-     mycursor.execute(sql, val)
+     sql_select_Query = "SELECT * FROM " + mysecrets.databasetable + "ORDER BY id DESC LIMIT 1;"
+     mycursor.execute(sql_select_Query)
+     # get all records
+     records = mycursor.fetchall()
+
+     for row in records:
+          last_entry = row
+     
+     if is_same_as_last_entry(last_entry, data1_str, data2_str) == False:
+
+          sql = "INSERT INTO " + mysecrets.databasetable + "("
+          for i in range(len(columnnames_db)):
+               if i > 0:
+                    sql += ","
+               sql += columnnames_db[i]
+          sql += ") VALUES (%s, %s, %s, %s, %s, %s, %s)"
+          val = (data1_str[0], data1_str[1], data1_str[3], data1_str[8], data1_str[9], data1_str[10], data1_str[15])
+          mycursor.execute(sql, val)
+     else:
+          print("Data has not changed, don't add it to database.")
+          print(data1_str)
 
      mydb.commit()
 
