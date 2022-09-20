@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import time
 import serial
+import math
 
 import mysql.connector
 import mysecrets
@@ -42,15 +43,16 @@ data2_str = []
 
 def is_same_as_last_entry(last_entry, data1_str, data2_str):
      result = 0;
-     result += last_entry[2] != data1_str[0]
-     result += last_entry[3] != data1_str[1]
-     result += last_entry[4] != data1_str[3]
-     result += last_entry[5] != data1_str[8]
-     result += last_entry[6] != data1_str[9]
-     result += last_entry[7] != data1_str[10]
-     result += last_entry[8] != data1_str[15]
-
-     print("Result of comparision: " + str(result))
+     result += not math.isclose(last_entry[2], float(data1_str[0]))
+     result += not math.isclose(last_entry[3], float(data1_str[1]))
+     result += not math.isclose(last_entry[4], float(data1_str[3]))
+     result += not math.isclose(last_entry[5], float(data1_str[8]))
+     result += not math.isclose(last_entry[6], float(data1_str[9]))
+     result += not math.isclose(last_entry[7], float(data1_str[10]))
+     result += not math.isclose(last_entry[8], float(data1_str[15]))
+     #print("last_entry: " + str(last_entry))
+     #print("data1_str: " + str(data1_str))
+     #print("Result of comparison: " + str(result))
 
      return result == 0;
 
@@ -60,7 +62,7 @@ def write_to_db(data1_str, data2_str):
 
      mycursor = mydb.cursor()
 
-     sql_select_Query = "SELECT * FROM " + mysecrets.databasetable + "ORDER BY id DESC LIMIT 1;"
+     sql_select_Query = "SELECT * FROM " + mysecrets.databasetable + " ORDER BY id DESC LIMIT 1;"
      mycursor.execute(sql_select_Query)
      # get all records
      records = mycursor.fetchall()
@@ -78,9 +80,8 @@ def write_to_db(data1_str, data2_str):
           sql += ") VALUES (%s, %s, %s, %s, %s, %s, %s)"
           val = (data1_str[0], data1_str[1], data1_str[3], data1_str[8], data1_str[9], data1_str[10], data1_str[15])
           mycursor.execute(sql, val)
-     else:
-          print("Data has not changed, don't add it to database.")
-          print(data1_str)
+     #else:
+     #     print("Data has not changed, don't add it to database.")
 
      mydb.commit()
 
