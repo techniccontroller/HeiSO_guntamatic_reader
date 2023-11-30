@@ -43,7 +43,7 @@ The output looks similar to that:
 
 ![image](https://user-images.githubusercontent.com/36072504/157072256-863d018d-4665-4a5d-95df-6bd5ecb0086e.png)
 
-The will script [guntamatic_serial_reader.py](https://github.com/techniccontroller/HeiSO_guntamatic_reader/blob/main/guntamatic_serial_reader.py) will parse this output and save some of the data to a MySQL database on Raspberry Pi. A tutorial how to install MySQL database on Raspberry Pi can be found here: https://pimylifeup.com/raspberry-pi-mysql/. 
+The script [guntamatic_serial_reader.py](https://github.com/techniccontroller/HeiSO_guntamatic_reader/blob/main/guntamatic_serial_reader.py) parses this output and saves some of the data to a MySQL database on the Raspberry Pi. A tutorial how to install MySQL database on Raspberry Pi can be found here: https://pimylifeup.com/raspberry-pi-mysql/. 
 
 The login credentials for the database are saved in the separate file *mysecrets.py* (an example of this file can be found in [mysecrets_example.py](https://github.com/techniccontroller/HeiSO_guntamatic_reader/blob/main/mysecrets_example.py)).
 
